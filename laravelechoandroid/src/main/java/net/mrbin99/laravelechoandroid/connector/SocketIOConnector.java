@@ -16,6 +16,7 @@ import net.mrbin99.laravelechoandroid.channel.SocketIOPrivateChannel;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -129,22 +130,27 @@ public class SocketIOConnector extends AbstractConnector {
         String privateChannel = "private-" + channel;
         String presenceChannel = "presence-" + channel;
 
-        for (String subscribed : channels.keySet()) {
+        Iterator<Map.Entry<String, SocketIOChannel>> iterator = channels.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, SocketIOChannel> entry = iterator.next();
+            SocketIOChannel socketIOChannel = entry.getValue();
+            String subscribed = entry.getKey();
+
             if (subscribed.equals(channel) || subscribed.equals(privateChannel) || subscribed.equals(presenceChannel)) {
                 try {
-                    channels.get(subscribed).unsubscribe(null);
+                    socketIOChannel.unsubscribe(null);
                 } catch (EchoException e) {
                     e.printStackTrace();
                 }
 
-                channels.remove(subscribed);
+                iterator.remove();
             }
         }
     }
 
     @Override
     public boolean isConnected() {
-        return socket.connected();
+        return socket != null && socket.connected();
     }
 
     @Override
