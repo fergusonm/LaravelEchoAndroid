@@ -2,19 +2,12 @@
  * EchoException.java
  * MrBin99 © 2018
  */
-package net.mrbin99.laravelechoandroid;
+package net.mrbin99.laravelechoandroid
 
 /**
- * Echo exception.
+ * Creates a new Echo Exception.
+ *
+ * @param message message
  */
-public class EchoException extends Exception {
+class EchoException(message: String) : Exception(message)
 
-    /**
-     * Creates a new Echo Exception.
-     *
-     * @param message message
-     */
-    public EchoException(String message) {
-        super(message);
-    }
-}
