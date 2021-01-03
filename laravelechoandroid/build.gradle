@@ -1,24 +1,35 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         consumerProguardFiles 'proguard-rules.pro'
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile("io.socket:socket.io-client:$socketio_version") {
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation("io.socket:socket.io-client:$socketio_version") {
         exclude group: 'org.json', module: 'json'
     }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 task sourcesJar(type: Jar) {
